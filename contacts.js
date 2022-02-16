@@ -1,15 +1,3 @@
-// contacts.js
-
-/*
- * Раскомментируй и запиши значение
- * const contactsPath = ;
- */
-
-// TODO: задокументировать каждую функцию
-// function listContacts() {
-//   // ...твой код
-// }
-
 const fs = require("fs/promises");
 const path = require("path");
 const nanoid = require("nanoid");
@@ -24,7 +12,7 @@ const listContacts = async () => {
 
 const getContactById = async (contactId) => {
   const contacts = await listContacts();
-  const contact = contacts.find((item) => item.id === contactId);
+  const contact = contacts.find((item) => item.id === contactId.toString());
   if (!contact) {
     return null;
   }
