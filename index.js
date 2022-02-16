@@ -1,8 +1,7 @@
 const fs = require("fs/promises");
 const path = require("path");
-
 const contactsOperations = require("./contacts");
-console.log("index.js file is running <<<--------------");
+const argv = require("yargs").argv;
 
 const invokeAction = async ({ action, id, name, email, phone }) => {
   switch (action) {
@@ -10,7 +9,7 @@ const invokeAction = async ({ action, id, name, email, phone }) => {
       const data = await contactsOperations.listContacts();
       console.log(data);
       break;
-    case "getById":
+    case "get":
       const contact = await contactsOperations.getContactById(id);
       if (!contact) {
         throw new Error(`Contact with id: ${id} not found`);
@@ -25,14 +24,13 @@ const invokeAction = async ({ action, id, name, email, phone }) => {
       );
       console.log(newContact);
       break;
-
+    case "remove":
+      const removedContact = await contactsOperations.removeContact(id);
+      console.log(removedContact);
+      break;
     default:
-      console.log("Unknown action");
+      console.warn("\x1B[31m Unknown action type!");
   }
 };
 
-const name = "Natalia";
-const email = "kjhsdkjhas@ll.com";
-const phone = "123-321-123";
-const id = "Rnr5gmtDfeZxgtoeqoxTZ";
-invokeAction({ action: "add", name, email, phone });
+invokeAction(argv);

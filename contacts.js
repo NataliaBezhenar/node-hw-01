@@ -31,8 +31,15 @@ const getContactById = async (contactId) => {
   return contact;
 };
 
-function removeContact(contactId) {
-  // ...твой код
+async function removeContact(contactId) {
+  const contacts = await listContacts();
+  const index = contacts.findIndex((item) => item.id === contactId);
+  if (index === -1) {
+    return null;
+  }
+  const newContacts = contacts.filter((_, ind) => ind !== index);
+  await fs.writeFile(contactsPath, JSON.stringify(newContacts));
+  return contacts[index];
 }
 
 async function addContact(name, email, phone) {
